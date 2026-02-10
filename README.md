@@ -129,5 +129,27 @@ These ideas are intentionally listed as experiments, not committed features.
   *Hypothesis:* Breaking tasks into 5–10 minute actions reduces procrastination  
   *Metrics:* Time-to-first-action, task completion rate
 
+## System Architecture
+Frontend (HTML + JS)
+→ REST APIs (Node + Express)
+→ Task Service
+→ In-memory Data Store
+
+## Implemented Scope
+- Create tasks with effort level
+- View task list
+- Focus Mode (single active task)
+- Mark task as completed
+
+## Skipped Scope (Intentional)
+- Authentication
+- Persistent database
+- Notifications
+- Analytics dashboards
+
+##  AI Usage
+AI was used for architecture validation, and code scaffolding.
+Product decisions, scope prioritization, and trade-offs were made independently.
+
    
 
