@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Focus List</title>
+</head>
+<body>
+  <h1>Focus List</h1>
+
+  <h3>Create Task</h3>
+  <input id="title" placeholder="Task title" />
+  <select id="effort">
+    <option>LOW</option>
+    <option>MEDIUM</option>
+    <option>HIGH</option>
+  </select>
+  <button onclick="createTask()">Add Task</button>
+
+  <h3>Tasks</h3>
+  <ul id="tasks"></ul>
+
+<script>
+const API = "http://localhost:3000";
+
+function loadTasks() {
+  fetch(`${API}/tasks`)
+    .then(res => res.json())
+    .then(data => {
+      const list = document.getElementById("tasks");
+      list.innerHTML = "";
+      data.forEach(task => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          ${task.title} (${task.effortLevel}) [${task.status}]
+          <button onclick="focusTask(${task.id})">Focus</button>
+          <button onclick="completeTask(${task.id})">Complete</button>
+        `;
+        list.appendChild(li);
+      });
+    });
+}
+
+function createTask() {
+  fetch(`${API}/tasks`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      title: document.getElementById("title").value,
+      effortLevel: document.getElementById("effort").value
+    })
+  }).then(loadTasks);
+}
+
+function focusTask(id) {
+  fetch(`${API}/tasks/${id}/focus`, { method: "POST" })
+    .then(loadTasks);
+}
+
+function completeTask(id) {
+  fetch(`${API}/tasks/${id}/complete`, { method: "POST" })
+    .then(loadTasks);
+}
+
+loadTasks();
+</script>
+</body>
+</html>
